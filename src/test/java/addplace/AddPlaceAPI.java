@@ -17,22 +17,23 @@ public class AddPlaceAPI {
     public static void main(String[] args) {
         RestAssured.baseURI="https://rahulshettyacademy.com";
         Response response = given().queryParam("key","qaclick123")
-                .header("Content-Type","application/json").body("{\n" +
-                        "  \"location\": {\n" +
-                        "    \"lat\": -50.383494,\n" +
-                        "    \"lng\": 50.427362\n" +
-                        "  },\n" +
-                        "  \"accuracy\": 50,\n" +
-                        "  \"name\": \"Frontline house\",\n" +
-                        "  \"phone_number\": \"(+91) 983 893 3937\",\n" +
-                        "  \"address\": \"29, side layout, cohen 09\",\n" +
-                        "  \"types\": [\n" +
-                        "    \"shoe park\",\n" +
-                        "    \"shop\"\n" +
-                        "  ],\n" +
-                        "  \"website\": \"http://google.com\",\n" +
-                        "  \"language\": \"English-IN\"\n" +
-                        "}")
+                .header("Content-Type","application/json").body("""
+                        {
+                          "location": {
+                            "lat": -50.383494,
+                            "lng": 50.427362
+                          },
+                          "accuracy": 50,
+                          "name": "Frontline house",
+                          "phone_number": "(+91) 983 893 3937",
+                          "address": "29, side layout, cohen 09",
+                          "types": [
+                            "shoe park",
+                            "shop"
+                          ],
+                          "website": "http://google.com",
+                          "language": "English-IN"
+                        }""")
                 .when().post("/maps/api/place/add/json")
                 .then().assertThat().log().all().statusCode(200).extract().response();
         String placeID = response.jsonPath().get("place_id");
